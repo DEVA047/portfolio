@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>DEVAKUMAR V — Portfolio</title>
+
+<!-- Font Awesome (icons) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+:root{
+  --bg:#0a0f1a;
+  --muted: rgba(255,255,255,0.85);
+  --accent-cyan:#00eaff;
+  --accent-green:#00ffa6;
+  --card-bg: rgba(255,255,255,0.04);
+  --glass: rgba(255,255,255,0.06);
+  --content-width:1150px;
+}
+
+/* Base */
+html,body{height:100%; margin:0; font-family:"Poppins",system-ui,Arial; background:var(--bg); color:#fff; scroll-behavior:smooth;}
+*{box-sizing:border-box}
+
+/* GRID BG (full page) */
+canvas#techGrid{ position:fixed; inset:0; width:100vw; height:100vh; z-index:-2; opacity:0.35; }
+
+/* Page wrapper */
+.page { max-width:var(--content-width); margin:0 auto; padding-top:84px; background:transparent; }
+
+/* NAV */
+header.site-header{
+  position:fixed; top:0; left:0; right:0; z-index:1200;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 22px; background: rgba(10,15,26,0.72); backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.brand{ font-weight:700; font-size:18px; color:var(--accent-cyan); letter-spacing:0.4px }
+.nav-links{ display:flex; gap:10px; align-items:center; }
+.nav-links a{ color:var(--muted); text-decoration:none; padding:8px 12px; border-radius:8px; font-size:15px; transition:all .16s ease; }
+.nav-links a:hover{ color:var(--bg); background:var(--accent-cyan); transform:translateY(-2px); }
+
+.hamburger{ display:none; background:transparent; border:0; color:var(--muted); font-size:20px; cursor:pointer; }
+.mobile-menu{ display:none; position:fixed; top:64px; right:18px; background:rgba(10,15,26,0.94); border:1px solid rgba(255,255,255,0.04); border-radius:10px; padding:12px; z-index:1300; }
+.mobile-menu a{ display:block; padding:8px 10px; color:var(--muted); text-decoration:none; border-radius:6px; }
+.mobile-menu a:hover{ background:rgba(255,255,255,0.02); color:var(--accent-cyan); }
+
+@media (max-width:880px){
+  .nav-links{ display:none; }
+  .hamburger{ display:inline-flex; }
+}
+
+/* Sections */
+section{ scroll-margin-top:94px; padding:80px 20px; min-height:calc(100vh - 94px); opacity:0; transform:translateY(18px); transition:all .7s ease; position:relative; z-index:1; }
+section.visible{ opacity:1; transform:none; }
+
+/* HERO */
+.hero{ display:flex; gap:36px; align-items:center; justify-content:space-between; padding-top:12px; position:relative; z-index:1; }
+.hero .left{ width:62%; min-width:260px; }
+.hero h1{ font-size:42px; margin:0 0 10px; }
+.hero .typed-text{ background:linear-gradient(90deg,var(--accent-cyan),var(--accent-green)); -webkit-background-clip:text; color:transparent; }
+.hero p{ margin:0; color:var(--muted); line-height:1.6; font-size:16px; }
+.cta-row{ margin-top:18px; display:flex; gap:12px; flex-wrap:wrap; }
+.btn{ background:var(--accent-cyan); color:#001; padding:10px 16px; border-radius:30px; text-decoration:none; font-weight:600; display:inline-flex; gap:8px; align-items:center; }
+.btn:hover{ transform:translateY(-3px); box-shadow:0 10px 30px rgba(0,234,255,0.08); }
+
+/* Profile card (glow, curvy) */
+.hero-card-wrapper { width:340px; height:400px; border-radius:40px; background:none; box-shadow:0 0 15px rgba(0,234,255,0.3),0 0 30px rgba(0,255,166,0.3); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.hero-card-wrapper .hero-card{ width:100%; height:100%; border-radius:32px; overflow:hidden; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); }
+.hero-card img{ width:100%; height:100%; object-fit:cover; display:block; border-radius:inherit; }
+
+/* down arrow */
+.down-arrow{ margin-top:18px; width:44px; height:44px; border-radius:10px; display:inline-grid; place-items:center; cursor:pointer; color:var(--accent-cyan); transition:transform .18s; }
+.down-arrow:hover{ transform:translateY(-4px); }
+
+/* SKILLS */
+.skills-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:18px; margin-top:16px; }
+.skill-card{ background:var(--card-bg); border-radius:12px; padding:18px; border:1px solid rgba(255,255,255,0.06); box-shadow:0 6px 24px rgba(0,0,0,0.25); }
+.skill-card h4{ margin:0 0 6px; color:var(--accent-cyan); }
+.skill-card p{ margin:0; color:var(--muted); font-size:14px; line-height:1.5; }
+
+/* PROJECTS */
+.projects-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(350px,1fr)); gap:18px; margin-top:16px; }
+.project{ background:var(--card-bg); padding:16px; border-radius:12px; border:1px solid rgba(255,255,255,0.06); }
+.project h3 { margin: 0 0 6px; color: #40E0D0; }
+.project .sub{ color:var(--accent-cyan); font-size:13px; margin-bottom:8px; display:block; }
+.project p{ color:var(--muted); margin:0; font-size:14px; line-height:1.5; }
+
+/* DEMOS */
+.demos-grid{ display:flex; flex-direction:column; gap:10px; margin-top:16px; }
+.demo{ background:var(--card-bg); padding:16px; border-radius:12px; border:1px solid rgba(255,255,255,0.06); display:flex; gap:18px; align-items:flex-start; }
+.demo video{ width:420px; max-width:42%; border-radius:8px; background:#000; }
+.demo-desc{ font-size: 17px; line-height: 1.7; color: #e5e5e5; padding: 10px 5px; font-weight: 400; }
+.demo h4{ margin:0 0 8px; color:var(--accent-cyan); }
+.project-box { display: grid; grid-template-columns: 1.1fr 1fr; gap: 20px; align-items: center; }
+
+/* CERTIFICATES */
+.certificates-grid{ display:flex; flex-direction:column; gap:16px; margin-top:16px; }
+.certificate-card{ background:var(--card-bg); padding:16px; border-radius:12px; border:1px solid rgba(255,255,255,0.06); display:flex; gap:16px; align-items:center; }
+.certificate-card img{ width:200px; max-width:35%; border-radius:8px; }
+.certificate-desc{ color:var(--muted); }
+.certificate-card h4{ margin:0 0 6px; color:var(--accent-cyan); font-size:17px; }
+
+/* CONTACT */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+  max-width: 900px;
+  margin: 20px auto 0 auto;
+}
+.contact-card{ display:flex; align-items:flex-start; gap:12px; background: var(--card-bg); border-radius:16px; padding:18px; border:1px solid rgba(255,255,255,0.06); box-shadow:0 6px 24px rgba(0,234,255,0.08); transition: all 0.3s ease;}
+.contact-card i{ font-size:28px; color: var(--accent-cyan); margin-top:4px; }
+.contact-card h4{ margin:0 0 4px; color: var(--accent-cyan); font-size:16px; }
+.contact-card a, .contact-card span{ color: var(--muted); text-decoration:none; font-size:14px; }
+.contact-card a:hover{ color: var(--accent-green); }
+.contact-card p{ margin:0; font-size:14px; color:var(--muted); line-height:1.5; }
+
+/* RESUME */
+.resume-card{
+  background:var(--card-bg); padding:24px; border-radius:16px; border:1px solid rgba(255,255,255,0.06); box-shadow:0 6px 24px rgba(0,234,255,0.08); max-width:800px; margin-top:24px;
+}
+.resume-card h3{ margin:0; color:var(--accent-cyan); }
+.resume-card p{ margin:4px 0 12px 0; color:var(--muted); font-size:15px; line-height:1.5; }
+.resume-card .btn{ font-size:14px; }
+.resume-card .file-info{ font-size:14px; color:var(--muted); margin-top:8px; }
+
+@media (max-width:980px){
+  .hero{ flex-direction:column-reverse; gap:22px; align-items:flex-start; }
+  .hero .left{ width:100%; }
+  .hero-card-wrapper{ width:260px; height:300px; align-self:center; }
+  .demo{ flex-direction:column; }
+  .demo video{ width:100%; max-width:100%; }
+  .projects-grid{ grid-template-columns:1fr; }
+  .skills-grid{ grid-template-columns:1fr; }
+  .certificates-grid{ flex-direction:column; }
+}
+/* Footer */
+footer {
+  padding: 18px;
+  text-align: center; /* centers the text */
+  color: rgba(255,255,255,0.65);
+  margin-top: 18px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  width: 100%;
+}
+
+</style>
+</head>
+<body>
+
+<canvas id="techGrid" aria-hidden="true"></canvas>
+
+<header class="site-header" role="banner">
+  <div class="brand">Portfolio</div>
+  <nav aria-label="Main navigation">
+    <div class="nav-links">
+      <a href="#home" class="nav-link">Home</a>
+      <a href="#skills" class="nav-link">Skills</a>
+      <a href="#education" class="nav-link">Education</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#certificates" class="nav-link">Certificates</a>
+      <a href="#resume" class="nav-link">Resume</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </div>
+    <button class="hamburger" aria-label="Open menu" title="Menu" id="hamburgerBtn" style="display:none"><i class="fa fa-bars"></i></button>
+  </nav>
+</header>
+
+<main class="page" role="main">
+
+  <!-- HERO -->
+  <section id="home" aria-labelledby="home-heading">
+    <div class="hero">
+      <div class="left">
+        <h1 id="home-heading"> <span id="typedName" class="typed-text"></span></h1>
+        <p>Focused IT undergraduate skilled in software development, problem-solving, and innovation. Proficient in Java, C, and HTML, with expertise in scalable tech solutions, web development, debugging, and system optimization. Dedicated to exploring new technologies, applying practical solutions to real-world challenges, and contributing effectively through strong teamwork, collaboration, and continuous learning.</p>
+
+        <div class="cta-row" style="margin-top:16px;">
+          <a class="btn" href="Devakumar.V - Resume.pdf" download><i class="fa-solid fa-download"></i> Download Resume</a>
+          <a class="btn" href="#contact"><i class="fa-solid fa-envelope"></i> Contact Me</a>
+          <a class="btn" href="#education"><i class="fa-solid fa-user"></i> View Profile</a>
+        </div>
+
+        <div style="margin-top:16px;">
+          <div class="down-arrow" data-target="#skills" id="homeDown"><i class="fa-solid fa-chevron-down"></i></div>
+        </div>
+      </div>
+
+      <div class="hero-card-wrapper" role="img" aria-label="Profile image">
+        <div class="hero-card">
+          <img src="profile-pic.jpg" alt="Deva's profile">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" aria-labelledby="skills-heading">
+    <h2 id="skills-heading" style="color:var(--accent-cyan)">Technical Skills</h2>
+    <p class="muted" style="margin-top:6px">Tools, languages and frameworks I use to build projects and prototypes.</p>
+
+    <div class="skills-grid" style="margin-top:14px;">
+      <div class="skill-card"><h4>Programming</h4><p>Python, C,C++, Java (Basics). Data processing, small ML projects, algorithmic problem solving.</p></div>
+      <div class="skill-card"><h4>Web Development</h4><p>HTML, CSS, JavaScript for responsive pages and UI interactions.</p></div>
+      <div class="skill-card"><h4>Frameworks & Tools</h4><p>Flask, Streamlit, Git, GitHub for APIs, dashboards, VS and version control.</p></div>
+      <div class="skill-card"><h4>Databases</h4><p>MySQL, SQLite: schema design, queries, data persistence.</p></div>
+      <div class="skill-card"><h4>IoT & Embedded</h4><p>Arduino and sensors for real-time monitoring projects like saline bottle alert.</p></div>
+      <div class="skill-card"><h4>Data Handling</h4><p>Pandas, NumPy: data cleaning, transformation, and dashboard analysis.</p></div>
+      <div class="skill-card"><h4>Soft Skills</h4><p>Problem solving, teamwork, communication, adaptability.</p></div>
+    </div>
+
+    <div class="down-arrow" data-target="#education" style="margin-top:28px;"><i class="fa-solid fa-chevron-down"></i></div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education" aria-labelledby="education-heading">
+    <h2 id="education-heading" style="color:var(--accent-cyan)">Education</h2>
+    <p class="muted" style="margin-top:6px">Academic background, coursework and strengths.</p>
+
+    <div class="projects-grid" style="margin-top:14px;">
+      <div class="project"><h3>B.Tech — Information Technology</h3><p>Panimalar Engineering College, 2022 – 2026 (Expected). Coursework: Data Structures, DBMS, OS, Computer Networks, Embedded Systems.</p></div>
+      <div class="project"><h3>Higher Secondary Certificate(HSC) — Dr V Genguswamy Naidu Matric Higher Secondary School</h3><p>Aggregate: 67% (2020 – 2022). </p></div>
+      <div class="project"><h3>Secondary School leaving Certificate(SSLC) — Dr V Genguswamy Naidu Matric Higher Secondary School</h3><p>Aggregate: 75% (2019 – 2020)</p></div>
+            <div class="project"><h3>Strengths & Activities</h3><p>Participated in mini-hackathons and technical events. Built multiple academic projects (web + IoT).</p></div>
+    </div>
+
+    <div class="down-arrow" data-target="#projects" style="margin-top:28px;"><i class="fa-solid fa-chevron-down"></i></div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" aria-labelledby="projects-heading">
+    <h2 id="projects-heading" style="color:var(--accent-cyan)">Projects</h2>
+    <p class="muted" style="margin-top:6px">Selected academic & personal projects with tech stack and detailed descriptions.</p>
+
+    <div class="projects-grid" style="margin-top:14px;">
+      <div class="project">
+        <h3>Sign Language for Deaf-People Communication Third</h3>
+        <span class="sub">Technologies Used: HTML, CSS</span>
+        <p>Developed an accessible web platform with tutorials and community forums to teach sign language. Promoted deaf culture awareness and improved societal communication through interactive learning modules.</p>
+      </div>
+      <div class="project">
+        <h3>Railway Reservation System — Mini-Project (2024)</h3>
+                <p>Built a dynamic web-based application to handle ticket booking, cancellations, and payments. Ensured secure, scalable architecture with emphasis on data integrity and usability.</p>
+      </div>
+          </div>
+
+    <div class="down-arrow" data-target="#demos" style="margin-top:28px;"><i class="fa-solid fa-chevron-down"></i></div>
+  </section>
+
+  
+  <!-- CERTIFICATES -->
+  <section id="certificates" aria-labelledby="certificates-heading">
+    <h2 id="certificates-heading" style="color:var(--accent-cyan)">Certificates</h2>
+    <p class="muted" style="margin-top:6px">Academic, professional, and internship certifications earned.</p>
+
+    <div class="certificates-grid">
+      <div class="certificate-card">
+        <img src="cisco-cybersecurity.jpg" alt="yberSecurity Essentials-CISCO">
+        <div class="certificate-desc">
+          <h4>CyberSecurity Essentials-CISCO</h4>
+          <p>Certificate from Cisco in Cybersecurity, likely recognizing completion of a course or training in cybersecurity fundamentals or networking security practices.</p>
+        </div>
+      </div>
+
+      <div class="certificate-card">
+        <img src="ibm-ml.jpg" alt="IBM Skills Certificate">
+        <div class="certificate-desc">
+          <h4>IBM Skills Certificate — Machine Learning with Python</h4>
+          <p>Completed IBM's machine learning program covering Python-based algorithms, data preprocessing, model evaluation, and deployment practices.</p>
+        </div>
+      </div>
+
+      <div class="certificate-card">
+        <img src="codewiz.png" alt="Trios Technologies">
+        <div class="certificate-desc">
+          <h4>Web development Internship— Trios Technologies</h4>
+          <p>Certificate from Trios Technologies for web develepment internship completion.</p>
+        </div>
+      </div>
+
+      <div class="certificate-card">
+        <img src="nasscom-cybersecurity.jpg" alt="CyberSecurity Fundamentals-NASSCOM">
+        <div class="certificate-desc">
+          <h4>CyberSecurity Fundamentals-NASSCOM</h4>
+          <p>Certificate from NASSCOM in Cybersecurity, possibly acknowledging completion of a course in cybersecurity awareness, practices, or tools.</p>
+        </div>
+</div>
+
+ <div class="certificate-card">
+        <img src="nasscom-uipath.jpg" alt="UiPath-Automation Developer Associate Training-NASSCOM">
+        <div class="certificate-desc">
+          <h4>CUiPath-Automation Developer Associate Training-NASSCOM</h4>
+          <p>ertificate from NASSCOM in UiPath, indicating completion of a Robotic Process Automation (RPA) or automation tool course.</p>
+        </div>
+</div>
+
+ <div class="certificate-card">
+        <img src="tata-genai.jpg" alt="GenAI powered Data Analytics Job Simulation">
+        <div class="certificate-desc">
+          <h4>GenAI powered Data Analytics Job Simulation</h4>
+          <p>Tata-certified course in Generative AI or Data Analytics with simulation, recognizing understanding and application of AI/analytics concepts.</p>
+        </div>
+</div>
+
+<div class="certificate-card">
+        <img src="tcs-ion.jpg" alt="TCS iON Career edge-Young professional">
+        <div class="certificate-desc">
+          <h4>TCS iON Career edge-Young professional</h4>
+          <p>TCS iON Certificate of Achievement, likely for completing a specific skill-building or certification course in IT, programming, or related domain.</p>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="down-arrow" data-target="#resume" style="margin-top:28px;"><i class="fa-solid fa-chevron-down"></i></div>
+  </section>
+
+  <!-- RESUME -->
+  <section id="resume" aria-labelledby="resume-heading">
+    <h2 id="resume-heading" style="color:var(--accent-cyan)">Resume</h2>
+    <p class="muted" style="margin-top:6px">Download my resume to see my academic history, projects, and achievements.</p>
+    <div class="resume-card">
+      <h3>Devakumar V — Information Technology Student</h3>
+      <p>Focused IT undergraduate skilled in Python, C, Java (Basics), web development, IoT-based systems, and data handling.</p>
+      <a href="V.Devakumar-Resume.pdf" class="btn" download><i class="fa-solid fa-download"></i> Download Resume</a>
+      <div class="file-info">PDF | 1.2 MB | Updated December 2025</div>
+    </div>
+    <div class="down-arrow" data-target="#contact" style="margin-top:28px;"><i class="fa-solid fa-chevron-down"></i></div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" aria-labelledby="contact-heading">
+  <h2 id="contact-heading" style="color:var(--accent-cyan)">Contact</h2>
+  <p class="muted" style="margin-top:6px">Feel free to reach out for internships, collaborations, or project discussions.</p>
+
+  <div class="contact-grid">
+    <div>
+      <p><i class="fa-solid fa-envelope"></i> Email: <a href="mailto:devpanimalar@gmail.com" style="color:var(--accent-cyan); text-decoration:none;">devpanimalar@gmail.com</a></p>
+    </div>
+    <div>
+      <p><i class="fa-solid fa-phone"></i> Phone: <a href="tel:+918220207885" style="color:var(--accent-cyan); text-decoration:none;">+91 8220207885</a></p>
+    </div>
+    <div>
+      <p><i class="fa-brands fa-linkedin"></i> LinkedIn: <a href="https://linkedin.com/in/deva-kumar-701024276" target="_blank" style="color:var(--accent-cyan); text-decoration:none;">linkedin.com/in/deva-kumar-701024276</a></p>
+    </div>
+    <div>
+      <p><i class="fa-brands fa-github"></i> GitHub: <a href="https://github.com/DEVA047" target="_blank" style="color:var(--accent-cyan); text-decoration:none;">github.com/DEVA047</a></p>
+    </div>
+    <div>
+     <p>
+  <i class="fa-solid fa-location-dot" ></i>Location:
+  <span style="color: var(--accent-cyan);">Chennai, Tamil Nadu, India</span>
+</p>
+
+    </div>
+  
+
+          </div>
+  </section>
+
+</main>
+
+<footer>&copy; 2025 Devakumar V. All rights reserved.</footer>
+
+<script>
+/* Typing effect for hero name */
+const typedTarget = document.getElementById('typedName');
+const nameStr = "Hi,I'm Devakumar V"; 
+let ti = 0;
+const cursor = document.createElement('span');
+cursor.textContent = '|';
+cursor.style.color = '#00eaff';
+cursor.style.marginLeft = '2px';
+typedTarget.parentNode.insertBefore(cursor, typedTarget.nextSibling);
+
+function typeLoop() {
+  if (ti < nameStr.length) {
+    typedTarget.textContent += nameStr.charAt(ti++);
+    setTimeout(typeLoop, 120);
+  } else {
+    setTimeout(() => { typedTarget.textContent = ''; ti = 0; typeLoop(); }, 2000);
+  }
+}
+setInterval(() => { cursor.style.visibility = (cursor.style.visibility === 'visible') ? 'hidden' : 'visible'; }, 500);
+window.addEventListener('load', typeLoop);
+
+/* Smooth scroll for down-arrow */
+document.querySelectorAll('.down-arrow').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const tgt = btn.getAttribute('data-target');
+    if(tgt){
+      const el = document.querySelector(tgt);
+      if(el){
+        const headerH = document.querySelector('header').offsetHeight + 8;
+        const top = el.getBoundingClientRect().top + window.scrollY - headerH;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    }
+  });
+});
+
+/* Mobile menu toggle */
+const ham = document.getElementById('hamburgerBtn');
+const mobileMenu = document.createElement('div');
+mobileMenu.className = 'mobile-menu';
+ham.insertAdjacentElement('afterend', mobileMenu);
+ham.addEventListener('click', ()=>{ mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block'; });
+document.querySelectorAll('.nav-links a').forEach(a => mobileMenu.appendChild(a.cloneNode(true)));
+
+/* Reveal sections on scroll */
+const sections = document.querySelectorAll('section');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('visible'); });
+},{ threshold: 0.18 });
+sections.forEach(s => io.observe(s));
+
+/* Canvas grid draw */
+const canvas = document.getElementById('techGrid');
+const ctx = canvas.getContext('2d');
+function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+let spacing = 40;
+let t = 0;
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.strokeStyle = "rgba(0,255,220,0.12)";
+  ctx.lineWidth = 1;
+  for(let x=0; x<canvas.width; x+=spacing){
+    ctx.beginPath(); ctx.moveTo(x + Math.sin(t + x*0.01)*6, 0); ctx.lineTo(x + Math.sin(t + x*0.01)*6, canvas.height); ctx.stroke();
+  }
+  for(let y=0; y<canvas.height; y+=spacing){
+    ctx.beginPath(); ctx.moveTo(0, y + Math.cos(t + y*0.01)*6); ctx.lineTo(canvas.width, y + Math.cos(t + y*0.01)*6); ctx.stroke();
+  }
+  t += 0.015;
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>
